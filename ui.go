@@ -1057,6 +1057,8 @@ func (ui *ui) readNormalEvent(ev tcell.Event) expr {
 		switch tev.Buttons() {
 		case tcell.Button1:
 			button = "<m-1>"
+			x, y := tev.Position()
+			return &callExpr{"mouse-click", []string{strconv.Itoa(x), strconv.Itoa(y)}, 1}
 		case tcell.Button2:
 			button = "<m-2>"
 		case tcell.Button3:
