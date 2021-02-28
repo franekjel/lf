@@ -1679,6 +1679,43 @@ func (e *callExpr) eval(app *app, args []string) {
 
 		app.ui.cmdAccLeft = acc
 		update(app)
+	case "mouse-click":
+
+		navwin := app.ui.wins[0]
+		if len(app.ui.wins) >= 1 {
+			navwin = app.ui.wins[len(app.ui.wins)-2]
+		}
+
+		x, err := strconv.Atoi(e.args[0])
+		if err != nil {
+			break
+		}
+		y, err := strconv.Atoi(e.args[1])
+		if err != nil {
+			break
+		}
+		x -= navwin.x
+		y -= navwin.y
+
+		if x < 0 || x >= navwin.w-1 {
+			break
+		}
+		if y < 0 || y >= navwin.h {
+			break
+		}
+		if y > len(app.nav.currDir().files)-1 {
+			y = len(app.nav.currDir().files) - 1
+		}
+
+		diff := app.nav.currDir().pos - y
+		app.nav.currDir().pos = y
+		app.nav.currDir().ind -= diff
+
+		app.ui.loadFile(app.nav, true)
+		app.ui.loadFileInfo(app.nav)
+
+		update(app)
+
 	default:
 		cmd, ok := gOpts.cmds[e.name]
 		if !ok {

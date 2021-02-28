@@ -1,3 +1,7 @@
+# LF fork
+
+This is fork of riginal lf with added support for basic navigation with mouse
+
 # LF
 
 [Google Groups](https://groups.google.com/forum/#!forum/lf-fm)
